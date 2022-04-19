@@ -41,9 +41,6 @@
         {{ props.gql.currentProject?.currentTestingType === 'component' ?
           t('specPage.componentSpecsHeader') : t('specPage.e2eSpecsHeader') }}
       </div>
-      <div class="flex items-center justify-between">
-        <div>{{ t('specPage.gitStatusHeader') }}</div>
-      </div>
     </div>
     <!--
       The markup around the virtualized list is pretty delicate. We might be tempted to
@@ -67,7 +64,7 @@
           :id="getIdIfDirectory(row)"
           :key="row.index"
           :data-cy="row.data.isLeaf ? 'spec-list-file' : 'spec-list-directory'"
-          :data-cy-row="row.data.data?.relative"
+          :data-cy-row="row.data.data?.baseName"
         >
           <template #file>
             <RouterLink
@@ -83,6 +80,7 @@
                 :file-name="row.data.data?.fileName || row.data.name"
                 :extension="row.data.data?.specFileExtension || ''"
                 :indexes="row.data.data?.fileIndexes"
+                :git-info="row.data.data?.gitInfo"
                 :style="{ paddingLeft: `${((row.data.depth - 2) * 10) + 22}px` }"
               />
             </RouterLink>
@@ -96,13 +94,6 @@
               :indexes="getDirIndexes(row.data)"
               :aria-controls="getIdIfDirectory(row)"
               @click="row.data.toggle"
-            />
-          </template>
-
-          <template #git-info>
-            <SpecListGitInfo
-              v-if="row.data.isLeaf && row.data.data?.gitInfo"
-              :gql="row.data.data.gitInfo"
             />
           </template>
         </SpecsListRowItem>
@@ -120,7 +111,6 @@
 
 <script setup lang="ts">
 import SpecsListHeader from './SpecsListHeader.vue'
-import SpecListGitInfo from './SpecListGitInfo.vue'
 import SpecsListRowItem from './SpecsListRowItem.vue'
 import { gql, useSubscription } from '@urql/vue'
 import { computed, ref, watch } from 'vue'

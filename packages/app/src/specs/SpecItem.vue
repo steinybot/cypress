@@ -3,8 +3,17 @@
     class="h-full grid gap-8px grid-cols-[16px,auto,auto] items-center"
     data-cy="spec-item"
   >
+    <i-cy-document-plus_x16
+      v-if="gitInfo?.statusType === 'created'"
+      class="icon-light-jade-50 icon-dark-jade-400"
+    />
+    <i-cy-document-plus-minus_x16
+      v-else-if="gitInfo?.statusType === 'modified'"
+      class="icon-light-orange-50 icon-dark-orange-400"
+    />
     <i-cy-document-blank_x16
-      class="icon-light-gray-50 icon-dark-gray-200"
+      v-else
+      class="icon-light-gray-50 icon-dark-gray-400"
     />
 
     <div class="text-gray-400 text-indigo-500 group-hocus:text-indigo-600">
@@ -25,11 +34,13 @@
 </template>
 
 <script lang="ts" setup>
+import type { SpecListRowFragment } from '../generated/graphql'
 import HighlightedText from './HighlightedText.vue'
 
 withDefaults(defineProps<{
   fileName: string
   extension: string
   indexes?: number[]
+  gitInfo: SpecListRowFragment
 }>(), { indexes: () => [] })
 </script>
