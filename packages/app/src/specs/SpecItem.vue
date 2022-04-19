@@ -41,6 +41,6 @@ withDefaults(defineProps<{
   fileName: string
   extension: string
   indexes?: number[]
-  gitInfo: SpecListRowFragment
-}>(), { indexes: () => [] })
+  gitInfo: SpecListRowFragment | undefined
+}>(), { indexes: () => [], gitInfo: undefined })
 </script>
