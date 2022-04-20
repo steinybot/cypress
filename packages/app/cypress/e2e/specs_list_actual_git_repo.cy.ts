@@ -14,21 +14,21 @@ describe('Spec List - Git Status', () => {
     // newly created, not yet committed
     // this is performed by the task `initGitRepoForTestProject`
     cy.get('[data-cy-row="foo.spec.js"]')
-    .contains('Created')
-    .get('[data-cy="git-status-created"]')
+    .get('svg')
+    .get('.icon-light-jade-50')
 
     // modified by not yet committed
     // this is performed by the task `initGitRepoForTestProject`
     cy.get('[data-cy-row="blank-contents.spec.js"]')
-    .contains('Modified')
-    .get('[data-cy="git-status-modified"]')
+    .get('svg')
+    .get('.icon-light-orange-50')
 
     // unmodified by current user
     // we still show "modified" but a different style, indicating the last
     // person to touch the file.
     cy.get('[data-cy-row="dom-container.spec.js"]')
-    .contains('Modified')
-    .get('[data-cy="git-status-unmodified"]')
+    .get('svg')
+    .get('.icon-light-gray-50')
 
     cy.withCtx((ctx) => {
       ctx.fs.writeFileSync(
@@ -39,7 +39,7 @@ describe('Spec List - Git Status', () => {
 
     // should update via GraphQL subscription, now the status is modified.
     cy.get('[data-cy-row="dom-container.spec.js"]')
-    .contains('Modified')
-    .get('[data-cy="git-status-modified"]')
+    .get('svg')
+    .get('.icon-light-gray-50')
   })
 })
