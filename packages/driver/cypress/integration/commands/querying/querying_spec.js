@@ -1236,6 +1236,12 @@ describe('src/cy/commands/querying', () => {
           expect($el).to.be.null
         })
       })
+
+      it('returns null when first element in chained query does not exist', () => {
+        cy.get('#does-not-exist').contains('alksjdflkasjdflkajsdf').should('not.exist').then(($el) => {
+          expect($el).to.be.null
+        })
+      })
     })
 
     describe('should(\'be.visible\')', () => {
